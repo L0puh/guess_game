@@ -1,3 +1,5 @@
+![](data/circuit.png)
+
 # IDEA
 The system generates randomized light sequences that players must observe and reproduce accurately by inputting the correct order.
 # STACK
