@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width" />
+      <title>Index</title>
+      <link rel="stylesheet" href="/styles/style.css">
+   </head>
+   <body>
+      <h1> LED GAME </h1>
+      <div class = "score"> 
+         <h2> BEST SCORE: {{ . }} </h2>
+      </div>
+      <div class="reset">
+         <form method = "POST" action="/reset">
+            <input type="submit" class="btn" value="RESET"/>
+         </form>
+      </div>
+   </body>
+</html>

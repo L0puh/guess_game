@@ -1,0 +1,12 @@
+body {
+   text-align: center;
+   margin: auto;
+   background-color: black;
+   color: white;
+}
+
+.btn {
+   padding: 10px;
+   border-radius: 5px;
+   border: 0;
+}
