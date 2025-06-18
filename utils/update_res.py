@@ -31,6 +31,7 @@ def update_score(ser):
                 res = read_result()
                 if line.isdigit():
                     res += int(line)
+                else: print("NO DIGIT: ", line)
                 print("new res:", res)
                 write_result(res)
 

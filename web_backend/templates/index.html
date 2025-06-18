@@ -12,8 +12,9 @@
          <h2> CURRENT SCORE: {{ . }} </h2>
       </div>
       <div class="reset">
-         <form method = "POST" action="/reset">
-            <input type="submit" class="btn" value="RESET"/>
+         <form method = "POST" action="/action">
+            <input type="submit" class="btn" name="btn" value="RESET"/>
+            <input type="submit" class="btn" name="btn" value="START"/>
          </form>
       </div>
    </body>

@@ -92,6 +92,12 @@ bool check_input(int *input, int *arr, int n){
   return true;
 }
 void loop() {
+  while (Serial.available() <= 0){
+      ;
+  }
+  String message = Serial.readStringUntil('\n');
+  Serial.print("RECIEVED: ");
+  Serial.println(message);
   int n = 4;
   int arr[n], input[n];
   clear();
@@ -102,7 +108,6 @@ void loop() {
   bool res = check_input(input, arr, n);
   write_result(res);
   
-  delay(100000);
 }
 
 void write_result(int res) {
