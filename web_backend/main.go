@@ -7,12 +7,11 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"slices"
 	"strconv"
 )
 
 var tmp *template.Template
-var score_file string = "score.txt"
+var score_file string = "../data/score.txt"
 
 func main() {
 
@@ -33,29 +32,28 @@ func print_error(err error){
 		log.Fatal(err);
 	}
 }
-func get_score() []int{
+func get_score() int{
 	file, err := os.Open(score_file);
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
-	
-	var scores []int
+
+	var score int;
 	for scanner.Scan() {
-		line, err := strconv.Atoi(scanner.Text())
-		print_error(err)
-		scores = append(scores, line)
+		text := scanner.Text()
+		score, err = strconv.Atoi(text)
+		if err != nil { score = 0 }
 	}
-	return scores
+	return score
 }
 
 
 func index_page(rw http.ResponseWriter, r* http.Request){
-	scores := get_score()
+	score := get_score()
 	if r.Method == "POST" {
 		http.Redirect(rw, r, "/", http.StatusFound);
 	}
-	best_score := slices.Max(scores)
-	tmp.ExecuteTemplate(rw, "index.html", best_score)
+	tmp.ExecuteTemplate(rw, "index.html", score)
 }

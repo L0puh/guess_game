@@ -1,21 +1,43 @@
 import serial
 
 PORT = "/dev/ttyUSB0"
-def update_score(ser):
-    try:
-        with open("data/score.txt", "a") as f:
-            while True:
-                line = ser.readline()
-                if line:
-                    line = line.decode("utf-8").strip()
+FILE = "data/score.txt"
 
-                    print("New data:", line)
-                    f.write(line + "\n")
-    except KeyboardInterrupt:
-        print("\nTerminated by user")
+def read_result():
+    try:
+        with open(FILE, "r") as f:
+            line = f.readline().strip()
+            if line and line.isdigit():
+                return int(line)
+            return 0
     except Exception as e:
         print("Error in opening file:")
         print(e)
+
+def write_result(res):
+    try:
+        with open(FILE, "w") as f:
+            f.write(str(res))
+    except Exception as e:
+        print("Error in opening file:")
+        print(e)
+
+def update_score(ser):
+    try:
+        while True:
+            line = ser.readline()
+            if line:
+                line = line.decode("utf-8").strip()
+                res = read_result()
+                if line.isdigit():
+                    res += int(line)
+                print("new res:", res)
+                write_result(res)
+
+    except KeyboardInterrupt:
+        print("\nTerminated by user")
+    except Exception as e:
+        print("ERROR: ", e)
     finally:
         close_serial(ser)
 
@@ -32,6 +54,8 @@ def open_serial():
     except serial.SerialException as e:
         print("Error in opening serial port:")
         print(e)
+    except Exception as e:
+        print("ERROR: ", e)
     return ser
 
 def main():

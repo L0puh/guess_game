@@ -3,7 +3,7 @@
 # IDEA
 The system generates randomized light sequences that players must observe and reproduce accurately by inputting the correct order.
 # STACK
-- arduino (3 LEDs, 3 buttons)
+- arduino uno (3 LEDs, 3 push buttons)
 - Golang (net/http) for web interface
 - Python for utils 
 # RUN
