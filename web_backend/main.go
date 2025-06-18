@@ -26,6 +26,7 @@ func main() {
 	print_error(err);
 
 	http.HandleFunc("/", index_page);
+	http.HandleFunc("/done", done_page);
 	fmt.Println("server is running. check localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080",  nil))
 }
@@ -57,13 +58,20 @@ func get_score() int{
 	}
 	return score
 }
-func send_start_signal(){
+func send_start_signal(speed string, repeat string){
 	c := &serial.Config{Name: "/dev/ttyUSB0", Baud: 9600}
 	s, err := serial.OpenPort(c)
 	print(err)
-	n, err := s.Write([]byte("START"))
+
+	data := fmt.Sprintf("%s,%s\n", speed, repeat)
+	n, err := s.Write([]byte(data))
 	print_error(err)
 	log.Printf("Signal - start. Sent %d bytes\n", n)
+
+}
+
+func done_page(rw http.ResponseWriter, r* http.Request){
+	tmp.ExecuteTemplate(rw, "done.html", nil);
 }
 
 func index_page(rw http.ResponseWriter, r* http.Request){
@@ -72,17 +80,21 @@ func index_page(rw http.ResponseWriter, r* http.Request){
 		err := r.ParseForm()
 		print_error(err)
 		action := r.FormValue("btn")
+		log.Println(action)
 		switch action {
 		case "START":
-			send_start_signal()
+			speed := r.FormValue("speed")
+			rep  := r.FormValue("repeat")
+			send_start_signal(speed, rep)
+			http.Redirect(rw, r, "/done", http.StatusFound);
 			break
 		case "RESET":
 			reset_score()
+			http.Redirect(rw, r, "/", http.StatusFound);
 			break
 		default:
 			log.Println("UNKNOWN ACTION")
 		}
-		http.Redirect(rw, r, "/", http.StatusFound);
 	}
 	tmp.ExecuteTemplate(rw, "index.html", score)
 }

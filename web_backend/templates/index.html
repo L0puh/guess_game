@@ -13,8 +13,17 @@
       </div>
       <div class="reset">
          <form method = "POST" action="/action">
-            <input type="submit" class="btn" name="btn" value="RESET"/>
+             <label for="speed">Speed:</label>
+             <input type="number" id="speed" name="speed" min="100" max="100000" required />
+             <br /><br />
+             <label for="repeat">Number of times to repeat:</label>
+             <input type="number" id="repeat" name="repeat" min="1" max="1000" required />
+             <br /><br />
             <input type="submit" class="btn" name="btn" value="START"/>
+         </form>
+         <br/><br/>
+         <form method = "POST" action="/action">
+            <input type="submit" class="btn" name="btn" value="RESET"/>
          </form>
       </div>
    </body>

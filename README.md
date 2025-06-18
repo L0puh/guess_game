@@ -1,4 +1,6 @@
 ![](data/circuit.png)
+![](./data/media.jpg)
+![](./data/media2.png)
 
 # IDEA
 The system generates randomized light sequences that players must observe and reproduce accurately by inputting the correct order.

@@ -6,7 +6,6 @@ int B_YELLOW = 12;
 int B_GREEN = 11;
 int B_RED = 10;
 
-int SPEED = 800;
 
 void setup() {
   Serial.begin(9600);
@@ -37,7 +36,7 @@ void clear() {
   digitalWrite(LED_YELLOW, LOW);
 }
 
-void show_lights(int* arr, int n) {
+void show_lights(int* arr, int n, int SPEED) {
   for (int i = 0; i < n; i++){
     int r = arr[i];
     switch(r) {
@@ -95,17 +94,25 @@ void loop() {
   while (Serial.available() <= 0){
       ;
   }
+  int REP = 4;
+  int SPEED = 100;
   String message = Serial.readStringUntil('\n');
+  int indx = message.indexOf(',');
+  if (indx > 0){
+    String speed_str = message.substring(0, indx);
+    String repeat_str = message.substring(indx+1);
+    SPEED = speed_str.toInt();
+    REP = repeat_str.toInt();
+  }
   Serial.print("RECIEVED: ");
   Serial.println(message);
-  int n = 4;
-  int arr[n], input[n];
+  int arr[REP], input[REP];
   clear();
-  generate_random_led(n, arr);
-  show_lights(arr, n);
-  read_input(input, n);
+  generate_random_led(REP, arr);
+  show_lights(arr, REP, SPEED);
+  read_input(input, REP);
  
-  bool res = check_input(input, arr, n);
+  bool res = check_input(input, arr, REP);
   write_result(res);
   
 }
